@@ -44,7 +44,17 @@ button {
     background: rgba(24, 106, 171, 0.6);
     color: #fff;
     text-align: center;
-    margin: 50px 0 0 0;
+    margin: 50px 0 0 150px;
+    font-weight: 25px;
+}
+
+.alignbtn{
+    font-size: 150px !important;
+    padding: 25px 0 0 0;
+}
+
+.text-block{
+    padding: 200px 0 200px 0;
 }
 
 /* popup */

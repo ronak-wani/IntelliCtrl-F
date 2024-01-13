@@ -10,12 +10,12 @@
 </head>
 <body>
 
-<h1>Intelligent Information Search</h1>
+<h1 style="text-align: center">Intelligent Information Search</h1>
 
 <div>
-    <a class="btn" href="#popup-box">UPLOAD</a>
-    <a class="btn" href="#popup-box">TYPE</a>
-    <a class="btn" href="#popup-box">SPEAK</a>
+    <a class="btn" href="#popup-box"><span class="material-symbols-outlined alignbtn">upload_file</span>UPLOAD</a>
+    <a class="btn" href="#popup-type"><span class="material-symbols-outlined alignbtn">format_align_justify</span>TYPE</a>
+    <a class="btn" href="#popup-box"><span class="material-symbols-outlined alignbtn">mic</span>SPEAK</a>
 </div>
 
 <div id="popup-box" class="modal">
@@ -25,6 +25,17 @@
                 <input class="" type = "file" name = "file">
                 <input class="" type = "submit">
             </div>
+        </form>
+    </div>
+    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    </div>
+</div>
+
+<div id="popup-type" class="modal">
+    <div class="content">
+        <form action="/detect_file_type">
+            <textarea class="text-block"></textarea>
+            <button type="submit">Submit</button>
         </form>
     </div>
     <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
