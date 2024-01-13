@@ -11,25 +11,16 @@
 <body>
 
 <h1>Intelligent Information Search</h1>
-
-<div>
-    <a class="btn" href="#popup-box">UPLOAD</a>
-    <a class="btn" href="#popup-box">TYPE</a>
-    <a class="btn" href="#popup-box">SPEAK</a>
-</div>
-
-<div id="popup-box" class="modal">
-    <div class="content">
-        <form id="show-uppdf" class="upload" action = "/detect_file_type" method = "POST" enctype = "multipart/form-data">
-            <div style="display: flex; align-items: center;">
-                <input class="" type = "file" name = "file">
-                <input class="" type = "submit">
-            </div>
-        </form>
+    <div class="prompt-container">
+        <label for="prompt">Enter your prompt:</label>
+        <textarea id="prompt" name="prompt" rows="5"></textarea>
+        <button id="submit-prompt">Submit</button>
     </div>
-    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    <div class="response-container">
+
     </div>
-</div>
+
+
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
