@@ -51,7 +51,7 @@ def detect_file_type():
         return render_template("nlp.html")
     else:
         return "other"
-app.route("/text_extract", methods=['GET', 'POST'])
+@app.route("/text_extract", methods=['GET', 'POST'])
 def text_extract():
     if request.method == "GET":
         text = request.args.get("code")
