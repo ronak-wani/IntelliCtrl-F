@@ -10,14 +10,18 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="search-bar">
-      <input type="text" placeholder="Ask Bard a question..." id="search-input">
-      <button>Search</button>
+<<h1>Intelligent Information Search</h1>
+    <div class="file-upload-container">
+        <label for="file">Upload a file (.txt or .docx):</label>
+        <input type="file" id="file" name="file">
     </div>
-    <div class="results">
-      </div>
-  </div>
+    <div class="prompt-container">
+        <label for="prompt">Enter your prompt:</label>
+        <textarea id="prompt" name="prompt" rows="5"></textarea>
+        <button id="submit-prompt">Submit</button>
+    </div>
+    <div class="response-container">
+        </div>
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
