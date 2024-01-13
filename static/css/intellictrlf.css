@@ -47,6 +47,10 @@ button {
     margin: 50px 0 0 150px;
     font-weight: 25px;
 }
+button:disabled {
+    background-color: #666;
+    pointer-events: none;
+}
 
 .alignbtn{
     font-size: 150px !important;

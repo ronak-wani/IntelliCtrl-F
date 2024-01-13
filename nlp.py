@@ -102,6 +102,8 @@ def selection_word2vec(text, hot_words, model, orig_text):
   sentences = text.split(".")
   res_sentences = []
   pos_tag = ['PROPN', 'ADJ', 'NOUN'] 
+  if len(hot_words) == 0:
+     return []
   for i, sentence in enumerate(sentences):
     best_hotwords = [0]*len(hot_words)
     count_hotwords = [0]*len(hot_words)

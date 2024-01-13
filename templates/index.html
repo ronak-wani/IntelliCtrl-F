@@ -10,37 +10,22 @@
 </head>
 <body>
 
-<h1 style="text-align: center">Intelligent Information Search</h1>
-
-<div>
-    <a class="btn" href="#popup-box"><span class="material-symbols-outlined alignbtn">upload_file</span>UPLOAD</a>
-    <a class="btn" href="#popup-type"><span class="material-symbols-outlined alignbtn">format_align_justify</span>TYPE</a>
-    <a class="btn" href="#popup-mic"><span class="material-symbols-outlined alignbtn">mic</span>SPEAK</a>
-</div>
-
-<div id="popup-box" class="modal">
-    <div class="content">
-        <form id="show-uppdf" class="upload" action = "/detect_file_type" method = "POST" enctype = "multipart/form-data">
-            <div style="display: flex; align-items: center;">
-                <input class="" type = "file" name = "file">
-                <input class="" type = "submit">
-            </div>
+<h1>Intelligent Information Search</h1>
+    <div class="query-container">
+        <form id="fileForm" enctype="multipart/format-data">
+            <label for="fileInput">Choose a file:</label>
+            <input type="file" id="fileInput" name="fileInput" accept=".txt, .pdf, .jpg, .png, .docx">
+            <br>
+            <label for="query">Enter your query:</label>
+            <textarea id="query" name="query" rows="5"></textarea>
+            <button type="button" id="button" onclick="submitForm()">Submit</button>
         </form>
     </div>
-    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    <div class="response-container" id="response-container">
+
     </div>
 
-<div id="popup-type" class="modal">
-    <div class="content">
-        <form action="/text_extract">
-            <textarea class="text-block"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
-    </div>
-
-<div id="popup-mic" class="modal">
+<!-- <div id="popup-mic" class="modal">
     <div class="content">
         <form action="/detect_file_type">
             <textarea class="text-block"></textarea>
@@ -72,7 +57,7 @@
     <input type="text" name="q" id="transcript" placeholder="Speak" />
     <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
   </div>
-</form>
+</form> -->
 
 <!-- HTML5 Speech Recognition API -->
 <script>
@@ -103,7 +88,30 @@
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
-
+<script>
+    const resultDiv = document.getElementById('response-container');
+    function submitForm() {
+        document.getElementById('button').disabled = true //TODO disabled not working
+        var formData = new FormData(document.getElementById('fileForm'));
+        fetch('/detect_file_type', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Append the result to the screen
+            resultDiv.innerHTML = ''
+            // document.getElementById('response-container').innerText = 'Sentences: ' + data.sentences;
+            document.getElementById('button').disabled = false
+            data.sentences.forEach(str => {
+                const sanitizedStr = str.toString()//.replace(/[^a-zA-Z0-9\s]/g, ''); // Remove special characters
+                const div = document.createElement('div');
+                div.textContent = sanitizedStr;
+                resultDiv.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
-
 </html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/intellictrlf.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>IntelliCTRLF</title>
+</head>
+<body>
+
+<h1 style="text-align: center">Intelligent Information Search</h1>
+
+<div>
+    <a class="btn" href="#popup-box"><span class="material-symbols-outlined alignbtn">upload_file</span>UPLOAD</a>
+    <a class="btn" href="#popup-type"><span class="material-symbols-outlined alignbtn">format_align_justify</span>TYPE</a>
+    <a class="btn" href="#popup-box"><span class="material-symbols-outlined alignbtn">mic</span>SPEAK</a>
+</div>
+
+<div id="popup-box" class="modal">
+    <div class="content">
+        <form id="show-uppdf" class="upload" action = "/detect_file_type" method = "POST" enctype = "multipart/form-data">
+            <div style="display: flex; align-items: center;">
+                <input class="" type = "file" name = "file">
+                <input class="" type = "submit">
+            </div>
+        </form>
+    </div>
+    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    </div>
+
+<div id="popup-type" class="modal">
+    <div class="content">
+        <form action="/text_extract">
+            <textarea class="text-block"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    </div>
+
+<div id="popup-type" class="modal">
+    <div class="content">
+        <form action="/detect_file_type">
+            <textarea class="text-block"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <a href="#" class="box-close"><span class="material-symbols-outlined">close</span></a>
+    </div>
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+</body>
+
+</html>

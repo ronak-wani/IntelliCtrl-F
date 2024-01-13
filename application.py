@@ -1,5 +1,5 @@
 import magic
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, jsonify
 import io
 import json
 from docx.api import Document
@@ -13,6 +13,8 @@ import tempfile
 from tempfile import gettempdir
 from flask import render_template, redirect, request, app, flash, send_file
 from werkzeug.utils import secure_filename
+from nlp import ctrl_f
+
 app = Flask(__name__)
 
 
@@ -32,44 +34,52 @@ def get_file_type(filepath):
 
 @app.route("/detect_file_type", methods=["GET", "POST"])
 def detect_file_type():
+    print(request)
+    file=None
+    query=None
     if request.method == 'POST':
-        file = request.files['file']
+        query = request.form.get('query')
+        if 'fileInput' not in request.files:
+            return jsonify({'error': 'No file part'})
+        file = request.files['fileInput']
     filename = secure_filename(file.filename)
     filepath = os.path.join(tempfile.gettempdir(), filename)
     file.save(filepath)
+    text = None
     if get_file_type(filepath) == 'application/pdf':
-        pdf_recognition(filepath)
-        return render_template("nlp.html")
+        text = pdf_recognition(filepath)
+        # return render_template("nlp.html")
     elif get_file_type(filepath) == 'text/plain':
-        txt_recognition(filepath)
-        return render_template("nlp.html")
+        text = txt_recognition(filepath)
+        # return render_template("nlp.html")
     elif get_file_type(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        docx_recognition(filepath)
-        return render_template("nlp.html")
+        text = docx_recognition(filepath)
     elif get_file_type(filepath) == 'image/png' or 'image/jpeg':
-        image_recognition(filepath)
-        return render_template("nlp.html")
+        text = image_recognition(filepath)
     else:
-        return "other"
+        return jsonify({'error': 'Wrong file type'})
+    text = text.decode('utf-8').replace('\u200C','').strip()
+    sentences = ctrl_f(text, query)
+    return jsonify({'sentences': sentences})
 @app.route("/text_extract", methods=['GET', 'POST'])
 def text_extract():
     if request.method == "GET":
         text = request.args.get("code")
         print(text)
         return render_template("nlp.html")
-def pdf_recognition(filepath):
+def pdf_recognition(filepath): #TODO fix
+    res_text = ""
     with open(filepath, "rb") as f:
         reader = PyPDF2.PdfReader(f)
         for i in range(len(reader.pages)):
             page = reader.pages[i]
             text = page.extract_text()
-            print(text)
-    return redirect("/")
+            res_text += text + " "
+    return res_text
 def txt_recognition(filepath):
     with open(filepath, "rb") as f:
         text = f.read()
-        print(text)
-    return redirect("/")
+        return text
 
 def docx_recognition(filepath):
     document = Document(filepath)
@@ -80,12 +90,12 @@ def docx_recognition(filepath):
     for p in document.paragraphs:
         all_text += p.text
         all_text += "\n"
-    print(all_text)
+    return all_text
 
 def image_recognition(image: Image):
     myconfig = r"--psm 6 --oem 3"
     text = pytesseract.image_to_string(PIL.Image.open(image), config=myconfig)
-    print(text)
+    return  text
 
 def text_to_speech(self):
     if request.method == "GET":
