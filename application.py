@@ -21,14 +21,11 @@ def index():
     def showNewProject(self):
         return render_template("new-project.html")
 
-    def userCode(self):
-        if request.method == "GET":
-            code = request.args.get("code")
-            language = request.args.get("language")
-            print(code, language)
-
-
-    return render_template("index.html")
+def userText(self):
+    if request.method == "GET":
+        text = request.args.get("code")
+        language = request.args.get("language")
+        print(text, language)
 
 def is_pdf(filepath):
     """Returns True if the file is a PDF file, False otherwise."""
