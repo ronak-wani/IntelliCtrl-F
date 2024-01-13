@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+        return render_template("index.html")
 
 def userText():
     if request.method == "GET":
@@ -33,15 +33,10 @@ def get_file_type(filepath):
 @app.route("/detect_file_type", methods=["GET", "POST"])
 def detect_file_type():
     if request.method == 'POST':
-<<<<<<< HEAD
-=======
-        print(request)
->>>>>>> 206339c (merging)
         file = request.files['file']
     filename = secure_filename(file.filename)
     filepath = os.path.join(tempfile.gettempdir(), filename)
     file.save(filepath)
-<<<<<<< HEAD
     if get_file_type(filepath) == 'application/pdf':
         pdf_recognition(filepath)
         return render_template("nlp.html")
@@ -62,23 +57,6 @@ def text_extract():
         text = request.args.get("code")
         print(text)
         return render_template("nlp.html")
-=======
-    if is_pdf(filepath) == 'application/pdf':
-        pdf_recognition(filepath)
-        return redirect("/")
-    elif is_txt(filepath) == 'text/plain':
-        txt_recognition(filepath)
-        return redirect("/")
-    elif is_docx(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        docx_recognition(filepath)
-        return redirect("/")
-    elif is_image(filepath) == 'image/png' or 'image/jpeg':
-        image_recognition(filepath)
-        return redirect("/")
-    else:
-        return "other"
-    
->>>>>>> 206339c (merging)
 def pdf_recognition(filepath):
     with open(filepath, "rb") as f:
         reader = PyPDF2.PdfReader(f)
@@ -135,7 +113,7 @@ def speech_recognition(self):
                     recognizer = speech_recognition.Recognizer()
                     # Continue listening
                     continue
-                 # Reinitialize the text variable
+                 #Reinitialize the text variable
                  text = ""
 
 if __name__ == "__main__":
