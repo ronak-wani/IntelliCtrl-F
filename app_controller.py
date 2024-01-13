@@ -1,3 +1,6 @@
+class appController():
+    def __init__(self, app):
+        pass
 # import io
 # import json
 # import os

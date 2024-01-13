@@ -31,8 +31,6 @@ def get_file_type(filepath):
     return mime_type
 
 @app.route("/detect_file_type", methods=["GET", "POST"])
-def show_nlp():
-    return render_template("nlp.html")
 def detect_file_type():
     if request.method == 'POST':
         file = request.files['file']
@@ -41,19 +39,24 @@ def detect_file_type():
     file.save(filepath)
     if get_file_type(filepath) == 'application/pdf':
         pdf_recognition(filepath)
-        return redirect("/")
+        return render_template("nlp.html")
     elif get_file_type(filepath) == 'text/plain':
         txt_recognition(filepath)
-        return redirect("/")
+        return render_template("nlp.html")
     elif get_file_type(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         docx_recognition(filepath)
-        return redirect("/")
+        return render_template("nlp.html")
     elif get_file_type(filepath) == 'image/png' or 'image/jpeg':
         image_recognition(filepath)
-        return redirect("/")
+        return render_template("nlp.html")
     else:
         return "other"
-
+app.route("/text_extract", methods=['GET', 'POST'])
+def text_extract():
+    if request.method == "GET":
+        text = request.args.get("code")
+        print(text)
+        return render_template("nlp.html")
 def pdf_recognition(filepath):
     with open(filepath, "rb") as f:
         reader = PyPDF2.PdfReader(f)
