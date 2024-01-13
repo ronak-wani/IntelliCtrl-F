@@ -108,7 +108,7 @@ def text_to_speech(self):
 def speech_recognition(self):
     if request.method == "GET":
         recognizer = speech_recognition.Recognizer()
-             while True:
+        while True:
                  try:
                      with speech_recognition.Microphone() as mic:
                          recognizer.adjust_for_ambient_noise(mic, duration=0.5)
