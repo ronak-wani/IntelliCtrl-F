@@ -18,29 +18,15 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    def showNewProject(self):
-        return render_template("new-project.html")
+        return render_template("index.html")
 
-def userText(self):
+def userText():
     if request.method == "GET":
         text = request.args.get("code")
         language = request.args.get("language")
         print(text, language)
 
-def is_pdf(filepath):
-    """Returns True if the file is a PDF file, False otherwise."""
-    mime_type = magic.from_file(filepath, mime=True)
-    return mime_type
-def is_txt(filepath):
-    """Returns True if the file is a text file, False otherwise."""
-    mime_type = magic.from_file(filepath, mime=True)
-    return mime_type
-def is_docx(filepath):
-    """Returns True if the file is a docx file, False otherwise."""
-    mime_type = magic.from_file(filepath, mime=True)
-    return mime_type
-def is_image(filepath):
-    """Returns True if the file is an image file, False otherwise."""
+def get_file_type(filepath):
     mime_type = magic.from_file(filepath, mime=True)
     return mime_type
 
@@ -51,16 +37,16 @@ def detect_file_type():
     filename = secure_filename(file.filename)
     filepath = os.path.join(tempfile.gettempdir(), filename)
     file.save(filepath)
-    if is_pdf(filepath) == 'application/pdf':
+    if get_file_type(filepath) == 'application/pdf':
         pdf_recognition(filepath)
         return redirect("/")
-    elif is_txt(filepath) == 'text/plain':
+    elif get_file_type(filepath) == 'text/plain':
         txt_recognition(filepath)
         return redirect("/")
-    elif is_docx(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+    elif get_file_type(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         docx_recognition(filepath)
         return redirect("/")
-    elif is_image(filepath) == 'image/png' or 'image/jpeg':
+    elif get_file_type(filepath) == 'image/png' or 'image/jpeg':
         image_recognition(filepath)
         return redirect("/")
     else:
