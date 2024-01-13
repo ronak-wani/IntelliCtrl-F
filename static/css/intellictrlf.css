@@ -31,3 +31,38 @@ button {
     padding: 15px;
     margin-top: 20px;
 }
+
+/* popup */
+.modal{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(66, 124, 197, 0.9);
+    transition: all 0.5s;
+    visibility: hidden; /* hiding the popup */
+    opacity: 0;
+}
+.content {
+    position: absolute;
+    background: #1A5276;
+    width: 1000px;
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+.modal:target {
+    visibility: visible; /* showing the popup */
+    opacity: 1;
+}
+.box-close { /* for close button of popup */
+    position: absolute;
+    top: 0;
+    right: 15px;
+    color: #3CB371;
+    text-decoration: none;
+    font-size: 30px;
+}
