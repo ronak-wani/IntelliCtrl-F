@@ -1,4 +1,3 @@
-import base64
 import io
 import json
 import os
@@ -7,8 +6,6 @@ import tempfile
 from tempfile import gettempdir
 from flask import render_template, redirect, request, app, flash, send_file
 from werkzeug.utils import secure_filename
-from pdfminer.high_level import extract_pages, extract_text
-from io import BytesIO
 class appController():
     def __init__(self, app):
         pass
@@ -32,7 +29,7 @@ class appController():
             language = request.args.get("language")
             print(code, language)
 
-    def uploader(self, file):
+    def pdf_uploader(self, file):
             filename = secure_filename(file.filename)
             filepath = os.path.join(tempfile.gettempdir(), filename)
             file.save(filepath)
@@ -40,4 +37,19 @@ class appController():
                 reader = PyPDF2.PdfReader(f)
                 page = reader.pages[0]
                 text = page.extract_text()
+            return render_template("new-project.html", text=text)
+    def txt_uploader(self, file):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(tempfile.gettempdir(), filename)
+            file.save(filepath)
+            with open(filepath, "rb") as f:
+                text = f.read()
+            return render_template("new-project.html", text=text)
+
+    def docx_uploader(self, file):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(tempfile.gettempdir(), filename)
+            file.save(filepath)
+            with open(filepath, "rb") as f:
+                text = f.read()
             return render_template("new-project.html", text=text)
