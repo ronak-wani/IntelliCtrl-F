@@ -57,13 +57,13 @@ def detect_file_type():
     if is_pdf(filepath) == 'application/pdf':
         pdf_recognition(filepath)
         return redirect("/")
-    elif(is_txt(filepath) == 'text/plain'):
+    elif is_txt(filepath) == 'text/plain':
         txt_recognition(filepath)
         return redirect("/")
     elif is_docx(filepath) == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         docx_recognition(filepath)
         return redirect("/")
-    elif is_image(filepath) == 'image/jpeg':
+    elif is_image(filepath) == 'image/png' or 'image/jpeg':
         image_recognition(filepath)
         return redirect("/")
     else:
@@ -86,6 +86,9 @@ def txt_recognition(filepath):
 def docx_recognition(filepath):
     document = Document(filepath)
     all_text = ""
+    for(table) in document.tables:
+        for(row) in table.rows:
+            print("|".join(cell.text for cell in row.cells))
     for p in document.paragraphs:
         all_text += p.text
         all_text += "\n"
