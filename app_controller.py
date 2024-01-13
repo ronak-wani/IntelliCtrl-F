@@ -33,17 +33,11 @@ class appController():
             print(code, language)
 
     def uploader(self, file):
-
             filename = secure_filename(file.filename)
-
             filepath = os.path.join(tempfile.gettempdir(), filename)
-
             file.save(filepath)
             with open(filepath, "rb") as f:
                 reader = PyPDF2.PdfReader(f)
-
                 page = reader.pages[0]
-
                 text = page.extract_text()
-
             return render_template("new-project.html", text=text)
